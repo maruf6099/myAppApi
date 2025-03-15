@@ -21,7 +21,18 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            "name" => "required|string",
+            "email" => "required|email|unique:students,email",
+            "gender" => "required|in:male,female,other"
+        ]);
+
+        Student::create($data);
+
+        return response()->json([
+            "status" => true,
+            "message" => "Student created successfully"
+        ]);
     }
 
     /**
